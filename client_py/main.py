@@ -25,7 +25,7 @@ def fetch():
         return lambda row: c.append(row)
     
     apply_on_row("SELECT * FROM FN45398.OWNERS", fill(owners))
-    apply_on_row("SELECT * FROM FN45398.ZONES", fill(free_zones))
+    apply_on_row("SELECT * FROM FN45398.ZONES z WHERE z.ZONE_ID NOT IN (SELECT c.ZONE_ID FROM FN45398.CONTRACTS c WHERE CURRENT TIMESTAMP > c.STDATE  AND CURRENT timestamp < c.ENDATE);", fill(free_zones))
 
 def add_new_contr(): 
     print("Add new contract\n 1. Choose owner: ")
